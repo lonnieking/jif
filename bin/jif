@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'jif'
+Jif::CLI.start(ARGV)
