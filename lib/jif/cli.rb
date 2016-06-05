@@ -9,11 +9,19 @@ module Jif
       display_gif_from gif_location if imgcat_available?
     end
 
+    desc "random", "Displays a gif at random. Not guaranteed to be SFW."
+    def random
+      search_results = giphy_random
+      gif_location = search_results.any? ? search_results["image_url"] : NO_RESULTS_GIF
+      display_gif_from gif_location if imgcat_available?
+    end
+
     private
 
     no_commands {
       GIPHY_API_URL   = 'http://api.giphy.com'
-      SEARCH_ENDPOINT = '/v1/gifs/search?'
+      SEARCH_ENDPOINT = '/v1/gifs/search'
+      RANDOM_ENDPOINT = '/v1/gifs/random'
       PUBLIC_API_KEY  = 'dc6zaTOxFJmzC'
       DEFAULT_QUERY   = %w[eric mind blown]
       IMGCAT_LOCATION = File.expand_path("../../../scripts/imgcat", __FILE__)
@@ -22,7 +30,13 @@ module Jif
 
       def giphy_search(query_terms)
         query = query_terms.any? ? query_terms.join('+') : DEFAULT_QUERY.join('+')
-        gif_request = SEARCH_ENDPOINT + "q=#{query}&limit=1&api_key=" + PUBLIC_API_KEY
+        gif_request = SEARCH_ENDPOINT + "?q=#{query}&limit=1&api_key=" + PUBLIC_API_KEY
+        response = http_client.get(gif_request)
+        JSON.parse(response.body)['data']
+      end
+
+      def giphy_random
+        gif_request = RANDOM_ENDPOINT + "?api_key=" + PUBLIC_API_KEY
         response = http_client.get(gif_request)
         JSON.parse(response.body)['data']
       end
