@@ -5,8 +5,8 @@ module Jif
     desc "search SEARCH TERMS", "Displays a gif related to SEARCH TERMS"
     def search(*query_terms)
       search_results = giphy_search(query_terms)
-      gif_url = search_results.first["images"]["fixed_height"]["url"]
-      display_gif_from gif_url if imgcat_available?
+      gif_location = search_results.any? ? search_results.first["images"]["fixed_height"]["url"] : NO_RESULTS_GIF
+      display_gif_from gif_location if imgcat_available?
     end
 
     private
@@ -17,6 +17,7 @@ module Jif
       PUBLIC_API_KEY  = 'dc6zaTOxFJmzC'
       DEFAULT_QUERY   = %w[eric mind blown]
       IMGCAT_LOCATION = File.expand_path("../../../scripts/imgcat", __FILE__)
+      NO_RESULTS_GIF  = File.expand_path("../../../assets/none_found.gif", __FILE__)
 
 
       def giphy_search(query_terms)
@@ -33,9 +34,9 @@ module Jif
         end
       end
 
-      def display_gif_from(gif_url)
+      def display_gif_from(gif_location)
         Tempfile.create('tmp') do |file|
-          file << open(gif_url).read
+          file << open(gif_location).read
           bash "#{IMGCAT_LOCATION} #{file.path}"
         end
       end

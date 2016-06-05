@@ -1,0 +1,12 @@
+{
+  "data": [],
+  "meta": {
+    "status": 200,
+    "msg": "OK"
+  },
+  "pagination": {
+    "total_count": 0,
+    "count": 0,
+    "offset": 0
+  }
+}
