@@ -16,7 +16,8 @@ module Jif
       SEARCH_ENDPOINT = '/v1/gifs/search?'
       PUBLIC_API_KEY  = 'dc6zaTOxFJmzC'
       DEFAULT_QUERY   = %w[eric mind blown]
-      IMGCAT_LOCATION = "#{Dir.pwd}/scripts/imgcat"
+      IMGCAT_LOCATION = File.expand_path("../../../scripts/imgcat", __FILE__)
+
 
       def giphy_search(query_terms)
         query = query_terms.any? ? query_terms.join('+') : DEFAULT_QUERY.join('+')
