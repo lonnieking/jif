@@ -8,6 +8,7 @@
 
 1) You'll need to install imgcat...
 ```
+brew tap eddieantonio/eddieantonio
 brew install imgcat
 ```
 2) you will need a version of iTerm2 with animated gif support. That means a version >= 2.9.20150512, but I would recommend that you just go ahead and install the [current beta release](https://www.iterm2.com/version3.html
